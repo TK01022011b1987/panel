@@ -725,3 +725,4 @@ install_stunnel
 install_rclocal
 install_iptables
 install_done
+reboot
