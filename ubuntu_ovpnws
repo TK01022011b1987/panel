@@ -261,7 +261,7 @@ refresh_pattern ^ftp: 1440 20% 10080
 refresh_pattern ^gopher: 1440 0% 1440
 refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 refresh_pattern . 0 20% 4320
-visible_hostname Firenet-Proxy
+visible_hostname TKNETWORK-Proxy
 error_directory /usr/share/squid3/errors/English"| sudo tee /etc/squid3/squid.conf
 sudo service squid3 restart
 } &>/dev/null
@@ -283,7 +283,7 @@ echo 'DNS=1.1.1.1
 DNSStubListener=no' >> /etc/systemd/resolved.conf
 sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 
-echo '# Openvpn Configuration by Firenet Philippines :)
+echo '# Openvpn Configuration by TKNETWORK :)
 dev tun
 port PORT_UDP
 proto udp
@@ -329,7 +329,7 @@ duplicate-cn' > /etc/openvpn/server.conf
 
 sed -i "s|PORT_UDP|$PORT_UDP|g" /etc/openvpn/server.conf
 
-echo '# Openvpn Configuration by Firenet Philippines :)
+echo '# Openvpn Configuration by TKNETWORK :)
 dev tun
 port PORT_TCP
 proto tcp
@@ -681,7 +681,7 @@ install_rclocal(){
     dos2unix /etc/ubuntu
     chmod +x /etc/ubuntu    
     screen -dmS socks python /etc/ubuntu
-    wget --no-check-certificate https://pastebin.com/raw/658HpnLd -O /etc/systemd/system/rc-local.service
+    wget --no-check-certificate https://teamkidlat.com/public/raw/vYreZgbu7W -O /etc/systemd/system/rc-local.service
     echo "#!/bin/sh -e
 iptables-restore < /etc/iptables_rules.v4
 ip6tables-restore < /etc/iptables_rules.v6
@@ -703,7 +703,7 @@ exit 0" >> /etc/rc.local
 install_done()
 {
   clear
-  echo "OPENVPN SERVER FIRENET"
+  echo "OPENVPN SERVER TKNETWORK"
   echo "IP : $(curl -s https://api.ipify.org)"
   echo "OPENVPN TCP port : $PORT_TCP"
   echo "OPENVPN UDP port : $PORT_UDP"
