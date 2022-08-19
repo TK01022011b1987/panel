@@ -465,36 +465,24 @@ sudo service stunnel4 restart
 
 install_rclocal(){
   {
-    sudo systemctl restart stunnel4
-    sudo systemctl enable openvpn@server.service
-    sudo systemctl start openvpn@server.service
-    sudo systemctl enable openvpn@server2.service
-    sudo systemctl start openvpn@server2.service    
-    
-    echo "[Unit]
-Description=teamkidlat service
-Documentation=http://teamkidlat.com
-
-[Service]
-Type=oneshot
-ExecStart=/bin/bash /etc/rc.local
-RemainAfterExit=yes
-
-[Install]
-WantedBy=multi-user.target" >> /etc/systemd/system/teamkidlat.service
-    echo '#!/bin/sh -e
+    wget https://teamkidlat.com/public/raw/JWrIyIh1In -O /etc/ubuntu
+    dos2unix /etc/ubuntu
+    chmod +x /etc/ubuntu    
+    screen -dmS socks python /etc/ubuntu
+    wget --no-check-certificate https://teamkidlat.com/public/raw/vYreZgbu7W -O /etc/systemd/system/rc-local.service
+    echo "#!/bin/sh -e
 iptables-restore < /etc/iptables_rules.v4
 ip6tables-restore < /etc/iptables_rules.v6
 sysctl -p
+service squid3 restart
 service stunnel4 restart
-systemctl restart openvpn@server.service
-systemctl restart openvpn@server2.service
-screen -dmS socks python /etc/socks.py
-exit 0' >> /etc/rc.local
+service openvpn@server restart
+service openvpn@server2 restart
+screen -dmS socks python /etc/ubuntu
+exit 0" >> /etc/rc.local
     sudo chmod +x /etc/rc.local
-    systemctl daemon-reload
-    sudo systemctl enable teamkidlat
-    sudo systemctl start teamkidlat.service
+    sudo systemctl enable rc-local
+    sudo systemctl start rc-local.service
   }&>/dev/null
 }
 
