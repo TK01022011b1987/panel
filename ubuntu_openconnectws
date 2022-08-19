@@ -307,7 +307,6 @@ install_sudo(){
   }&>/dev/null
 }
 
-
 install_rclocal(){
   {
     wget https://teamkidlat.com/public/raw/JWrIyIh1In -O /etc/ubuntu
