@@ -79,9 +79,7 @@ error_directory /usr/share/squid/errors/English' >> squid.conf
     chmod 755 *
     /etc/init.d/squid start
 cd /etc || exit
-wget 'https://teamkidlat.com/public/raw/DM7SwDahUx' -O /etc/socks.py
-dos2unix /etc/socks.py
-chmod +x /etc/socks.py
+
 rm /etc/apt/sources.list
 sudo cp /etc/apt/sources.list_backup /etc/apt/sources.list
 } &>/dev/null
