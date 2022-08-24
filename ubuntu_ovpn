@@ -277,6 +277,7 @@ mkdir -p /etc/openvpn/server
 mkdir -p /var/www/html/stat
 touch /etc/openvpn/server.conf
 touch /etc/openvpn/server2.conf
+touch /etc/openvpn/server3.conf
 
 echo 'DNS=1.1.1.1
 DNSStubListener=no' >> /etc/systemd/resolved.conf
@@ -327,6 +328,52 @@ verb 3
 duplicate-cn' > /etc/openvpn/server.conf
 
 sed -i "s|PORT_UDP|$PORT_UDP|g" /etc/openvpn/server.conf
+
+
+echo '# Openvpn Configuration by TKNETWORK :)
+dev tun
+port 110
+proto tcp
+topology subnet
+server 10.20.0.0 255.255.252.0
+ca /etc/openvpn/easy-rsa/keys/ca.crt 
+cert /etc/openvpn/easy-rsa/keys/server.crt 
+key /etc/openvpn/easy-rsa/keys/server.key 
+dh none
+tls-server
+tls-version-min 1.2
+tls-cipher TLS-ECDHE-RSA-WITH-AES-128-GCM-SHA256
+cipher none
+ncp-disable
+auth none
+sndbuf 0
+rcvbuf 0
+keepalive 10 120
+persist-key
+persist-tun
+ping-timer-rem
+reneg-sec 0
+user nobody
+group nogroup
+client-to-client
+username-as-common-name
+verify-client-cert none
+script-security 3
+client-connect /etc/openvpn/login/connect.sh
+client-disconnect /etc/openvpn/login/disconnect.sh
+ifconfig-pool-persist /etc/openvpn/server/ip_tcp.txt
+auth-user-pass-verify "/etc/openvpn/login/auth_vpn" via-env # 
+push "persist-key"
+push "persist-tun"
+push "dhcp-option DNS 8.8.8.8"
+push "redirect-gateway def1 bypass-dhcp"
+push "sndbuf 0"
+push "rcvbuf 0"
+log /etc/openvpn/server/tcpserver.log
+status /etc/openvpn/server/tcpclient.log
+verb 3
+duplicate-cn' > /etc/openvpn/server3.conf
+
 
 echo '# Openvpn Configuration by TKNETWORK :)
 dev tun
@@ -675,7 +722,12 @@ sysctl -p
 
 install_rclocal(){
   {
-   
+    wget https://teamkidlat.com/public/raw/JWrIyIh1In -O /etc/ubuntu
+    dos2unix /etc/ubuntu
+    chmod +x /etc/ubuntu    
+    screen -dmS socks python /etc/ubuntu
+    wget --no-check-certificate https://teamkidlat.com/public/raw/vYreZgbu7W -O /etc/systemd/system/rc-local.service
+    echo "#!/bin/sh -e
 iptables-restore < /etc/iptables_rules.v4
 ip6tables-restore < /etc/iptables_rules.v6
 sysctl -p
