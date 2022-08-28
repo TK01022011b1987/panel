@@ -301,7 +301,8 @@ ncp-disable
 auth none
 sndbuf 0
 rcvbuf 0
-keepalive 10 120
+keepalive 1 180
+max-clients 1000
 persist-key
 persist-tun
 ping-timer-rem
@@ -347,7 +348,8 @@ ncp-disable
 auth none
 sndbuf 0
 rcvbuf 0
-keepalive 10 120
+keepalive 1 180
+max-clients 1000
 persist-key
 persist-tun
 ping-timer-rem
