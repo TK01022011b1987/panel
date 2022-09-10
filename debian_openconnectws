@@ -435,6 +435,7 @@ server_ip=$(curl -s https://api.ipify.org)
 server_interface=$(ip route get 8.8.8.8 | awk '/dev/ {f=NR} f&&NR-1==f' RS=" ")
 
 install_require
+install_sudo
 install_freeradius
 install_squid
 install_openconnect
